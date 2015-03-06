@@ -4,14 +4,18 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapView;
 
 
-public class Maps extends ActionBarActivity {
+public class Maps extends MapActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        Mapview mapview = (MapView)(findViewById(R.id.mapview));
+        mapView.setBuiltInZoomControls(true);
     }
 
 
@@ -36,4 +40,11 @@ public class Maps extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    /*Is required for every MapActivity*/
+    @Override
+    protected boolean isRouteDisplayed(){
+        return false;
+    }
+}
+
 }
