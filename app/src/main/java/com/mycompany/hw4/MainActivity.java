@@ -61,17 +61,18 @@ public class MainActivity extends ActionBarActivity
 
     public void sendAddress(View view)
     {
-       // Intent intent =new Intent(this,geoActivity.class);
-      //  startActivity(intent);
-
         EditText location = (EditText)findViewById(R.id.addressText);
         //int queryCount = ((SeekBar)findViewById(R.id.queryCount)).getProgress() + 1;
         String locationQuery = location.getText().toString();
-        if (coder.isPresent()) {
+        if (coder.isPresent())
+        {
             ArrayList<Address> locations = new ArrayList<Address>();
-            try {
+            try
+            {
                 locations.addAll(coder.getFromLocationName(locationQuery, 50));
-            } catch (IOException e) {
+            } catch (IOException e)
+            {
+                System.out.println(e.getMessage());
             }
             if (locations.size() > 0) {
                 Intent intent = new Intent(getBaseContext(), Maps.class);
