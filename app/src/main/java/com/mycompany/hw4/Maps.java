@@ -89,7 +89,15 @@ public class Maps extends FragmentActivity
             // Check if we were successful in obtaining the map.
             if (map != null)
             {
-                map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                Intent intent= getIntent();
+
+                if(intent.getIntExtra(MainActivity.EXTRA_MESSAGE,0)==4)
+                    map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                if(intent.getIntExtra(MainActivity.EXTRA_MESSAGE,0)==3)
+                    map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                if(intent.getIntExtra(MainActivity.EXTRA_MESSAGE,0)==2)
+                    map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
                 setUpMap();
             }
         }

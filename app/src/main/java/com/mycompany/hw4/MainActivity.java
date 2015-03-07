@@ -24,6 +24,7 @@ import android.location.*;
 public class MainActivity extends ActionBarActivity
 {
     public final static String LOCATION_MESSAGE = "com.company.hw4.LOCATION";
+    public final static String EXTRA_MESSAGE = "com.company.hw4.INTEGER";
     private Geocoder coder;
 
     @Override
@@ -84,12 +85,100 @@ public class MainActivity extends ActionBarActivity
         } else {
             Toast.makeText(this, "No Geocoder implementation exists..", Toast.LENGTH_LONG).show();
         }
+    }
 
+    public void sendAddressHybrid(View view)
+    {
+        EditText location = (EditText)findViewById(R.id.addressText);
+        //int queryCount = ((SeekBar)findViewById(R.id.queryCount)).getProgress() + 1;
+        String locationQuery = location.getText().toString();
+        int message= 4;
+        if (coder.isPresent())
+        {
+            ArrayList<Address> locations = new ArrayList<Address>();
+            try
+            {
+                locations.addAll(coder.getFromLocationName(locationQuery, 50));
+            } catch (IOException e)
+            {
+                System.out.println(e.getMessage());
+            }
+            if (locations.size() > 0) {
+                Intent intent = new Intent(getBaseContext(), Maps.class);
+                intent.putExtra(EXTRA_MESSAGE,message);
+                intent.putParcelableArrayListExtra(LOCATION_MESSAGE, locations);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Unable to find any matching locations.", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, "No Geocoder implementation exists..", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    public void sendAddressSatellite(View view)
+    {
+        EditText location = (EditText)findViewById(R.id.addressText);
+        //int queryCount = ((SeekBar)findViewById(R.id.queryCount)).getProgress() + 1;
+        String locationQuery = location.getText().toString();
+        int message= 2;
+        if (coder.isPresent())
+        {
+            ArrayList<Address> locations = new ArrayList<Address>();
+            try
+            {
+                //Max number of results is 50
+                locations.addAll(coder.getFromLocationName(locationQuery, 50));
+            } catch (IOException e)
+            {
+                System.out.println(e.getMessage());
+            }
+            if (locations.size() > 0) {
+                Intent intent = new Intent(getBaseContext(), Maps.class);
+                intent.putExtra(EXTRA_MESSAGE,message);
+                intent.putParcelableArrayListExtra(LOCATION_MESSAGE, locations);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Unable to find any locations.", Toast.LENGTH_LONG).show();
+            }
+        }
 
 
     }
 
 
+    public void sendAddressTerrain(View view)
+    {
+        EditText location = (EditText)findViewById(R.id.addressText);
+        //int queryCount = ((SeekBar)findViewById(R.id.queryCount)).getProgress() + 1;
+        String locationQuery = location.getText().toString();
+        int message= 3;
+        if (coder.isPresent())
+        {
+            ArrayList<Address> locations = new ArrayList<Address>();
+            try
+            {
+                locations.addAll(coder.getFromLocationName(locationQuery, 50));
+            } catch (IOException e)
+            {
+                System.out.println(e.getMessage());
+            }
+            if (locations.size() > 0) {
+                Intent intent = new Intent(getBaseContext(), Maps.class);
+                intent.putExtra(EXTRA_MESSAGE,message);
+                intent.putParcelableArrayListExtra(LOCATION_MESSAGE, locations);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Unable to find any matching locations.", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, "No Geocoder implementation exists..", Toast.LENGTH_LONG).show();
+        }
+
+
+
+    }
 
 
     public void viewMaps(View view)
