@@ -12,17 +12,27 @@ import android.content.Intent;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.location.Geocoder;
 import android.view.View;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import android.widget.*;
+import android.location.*;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity
+{
+    public final static String LOCATION_MESSAGE = "com.company.hw4.LOCATION";
+    private Geocoder coder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        coder = new Geocoder(getApplicationContext());
     }
 
 
@@ -51,8 +61,31 @@ public class MainActivity extends ActionBarActivity {
 
     public void sendAddress(View view)
     {
-        Intent intent =new Intent(this,geoActivity.class);
-        startActivity(intent);
+       // Intent intent =new Intent(this,geoActivity.class);
+      //  startActivity(intent);
+
+        EditText location = (EditText)findViewById(R.id.addressText);
+        //int queryCount = ((SeekBar)findViewById(R.id.queryCount)).getProgress() + 1;
+        String locationQuery = location.getText().toString();
+        if (coder.isPresent()) {
+            ArrayList<Address> locations = new ArrayList<Address>();
+            try {
+                locations.addAll(coder.getFromLocationName(locationQuery, 50));
+            } catch (IOException e) {
+            }
+            if (locations.size() > 0) {
+                Intent intent = new Intent(getBaseContext(), Maps.class);
+                intent.putParcelableArrayListExtra(LOCATION_MESSAGE, locations);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Unable to find any matching locations.", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, "No Geocoder implementation exists..", Toast.LENGTH_LONG).show();
+        }
+
+
+
     }
 
 
