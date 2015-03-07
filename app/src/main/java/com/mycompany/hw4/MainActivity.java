@@ -49,7 +49,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public void sendAdress(View view){
+    public void sendAddress(View view)
+    {
         Intent intent =new Intent(this,geoActivity.class);
         startActivity(intent);
     }
